@@ -5,13 +5,11 @@ import App from './App';
 
 document.addEventListener('readystatechange', event => { 
   if (event.target.readyState === "complete") {
-    test();
+    countDown();
+    NextQuestion();
   }
 });
 
-function test(){
-  alert('test2')
-}
 
 const questions = [
   {
@@ -24,21 +22,6 @@ const questions = [
   }
 ]
 
-
-let shuffledQuestions = [] //empty array to hold shuffled selected questions out of all available questions
-
-function handleQuestions() { 
-  //function to shuffle and push 10 questions to shuffledQuestions array
-//app would be dealing with 10questions per session
-  while (shuffledQuestions.length <= 9) {
-      const random = questions[Math.floor(Math.random() * questions.length)]
-      if (!shuffledQuestions.includes(random)) {
-          shuffledQuestions.push(random)
-      }
-  }
-}
-
-
 let questionNumber = 1 //holds the current question number
 let playerScore = 0  //holds the player score
 let wrongAttempt = 0 //amount of wrong answers picked by player
@@ -46,17 +29,52 @@ let indexNumber = 0 //will be used in displaying next question
 
 // function for displaying next question in the array to dom
 //also handles displaying players and quiz information to dom
-function NextQuestion(index) {
-  handleQuestions()
-  const currentQuestion = shuffledQuestions[index]
-  document.getElementById("question-number").innerHTML = questionNumber
-  document.getElementById("player-score").innerHTML = playerScore
+function NextQuestion() {
+  //handleQuestions()
+  const currentQuestion = questions[0]
+  //document.getElementById("player-score").innerHTML = playerScore
   document.getElementById("display-question").innerHTML = currentQuestion.question;
   document.getElementById("option-one-label").innerHTML = currentQuestion.optionA;
   document.getElementById("option-two-label").innerHTML = currentQuestion.optionB;
   document.getElementById("option-three-label").innerHTML = currentQuestion.optionC;
   document.getElementById("option-four-label").innerHTML = currentQuestion.optionD;
 
+  //document.getElementById("remaining-time").innerHTML = new Date.getTime();
+}
+
+
+function countDown(){
+  var countDownDate = addMinutes(new Date().getTime(), 1)
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  minutes = (minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+  seconds = (seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+
+  // Display the result in the element with id="demo"
+  document.getElementById("remaining-time").innerHTML = minutes + ":" + seconds;
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("remaining-time").innerHTML = "EXPIRED";
+  }
+}, 1000);
+}
+
+function addMinutes(date, minutes) {
+  return new Date(date + minutes*60000);
 }
 /*
 
