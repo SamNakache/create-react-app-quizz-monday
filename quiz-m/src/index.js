@@ -17,7 +17,7 @@ let currentQuestion
 let bestScore = 0;
 document.getElementById("best-score").innerHTML = playerScore;
 const dataQuestions = [];
-setTimeout(() => {  countDown(); }, 2000);
+setTimeout(() => { countDown(); }, 2000);
 
 
 
@@ -30,9 +30,20 @@ function NextQuestion(index) {
     currentQuestion = dataQuestions[indexNumber];
     document.getElementById("display-question").innerHTML = currentQuestion.question;
     document.getElementById("option-one-label").innerHTML = currentQuestion.optionA;
-    document.getElementById("option-two-label").innerHTML = currentQuestion.optionB;
-    document.getElementById("option-three-label").innerHTML = currentQuestion.optionC;
-    document.getElementById("option-four-label").innerHTML = currentQuestion.optionD;
+    if (currentQuestion.nIncorrectOptions === 1) {
+      document.getElementById("option-two-label").innerHTML = currentQuestion.optionD;
+      currentQuestion.correctOption = "optionD";
+      document.getElementById("option-three-label").style.display = 'none';
+      document.getElementById("option-four-label").style.display = 'none';
+    }
+    else {
+      document.getElementById("option-two-label").innerHTML = currentQuestion.optionB;
+      document.getElementById("option-three-label").innerHTML = currentQuestion.optionC;
+      document.getElementById("option-four-label").innerHTML = currentQuestion.optionD;
+      document.getElementById("option-three-label").style.display = 'flex';
+      document.getElementById("option-four-label").style.display = 'flex';
+    }
+
   }
   else
     endOfGame()
@@ -55,46 +66,46 @@ function checkAnswer(option) {
 
 
 function countDown() {
-    NextQuestion(indexNumber)
-  
+  NextQuestion(indexNumber)
+
   var seconds = 9;
 
   // Update the count down every 1 second
   var x = setInterval(function () {
 
     // Display the result in the element 
-    addColor(9/seconds)
+    addColor(9 / seconds)
     document.getElementById("remaining-time").innerHTML = seconds;
-    
+
 
     // If the count down is finished, write some text
     if (seconds < 1) {
       stopInterval()
     }
-    if (!(indexNumber<dataQuestions.length)){
+    if (!(indexNumber < dataQuestions.length)) {
       clearInterval(x)
     }
     seconds--;
   }, 1000);
 
-  function stopInterval(){
+  function stopInterval() {
     clearInterval(x);
     indexNumber++;
-      countDown();
+    countDown();
   }
 
-  
 
-document.getElementById("option-one-label").addEventListener("click", function () {checkAnswer("optionA"); stopInterval()});
-document.getElementById("option-two-label").addEventListener("click", function () {checkAnswer("optionB"); stopInterval()});
-document.getElementById("option-three-label").addEventListener("click", function () {checkAnswer("optionC"); stopInterval()});
-document.getElementById("option-four-label").addEventListener("click", function () {checkAnswer("optionD"); stopInterval()});
+
+  document.getElementById("option-one-label").addEventListener("click", function () { checkAnswer("optionA"); stopInterval() });
+  document.getElementById("option-two-label").addEventListener("click", function () { checkAnswer("optionB"); stopInterval() });
+  document.getElementById("option-three-label").addEventListener("click", function () { checkAnswer("optionC"); stopInterval() });
+  document.getElementById("option-four-label").addEventListener("click", function () { checkAnswer("optionD"); stopInterval() });
 }
 
-function addColor(result){
-  if (result>=3)
+function addColor(result) {
+  if (result >= 3)
     document.getElementById("remaining-time").style.color = 'red'
-  else if (result<3 && result>=1.5)
+  else if (result < 3 && result >= 1.5)
     document.getElementById("remaining-time").style.color = 'yellow'
   else
     document.getElementById("remaining-time").style.color = 'green'
@@ -131,32 +142,59 @@ function eraseEverything() {
   dataQuestions = []
 }
 
-function getData(){
+function getData() {
 
   const url = 'https://opentdb.com/api.php?amount=100';
 
-fetch(url)
-.then((resp) => resp.json())
-.then(function(data) {
-  let q = data.results;
-  q.forEach(element => {
-    const temp = {
-      question: element.question,
-      optionA: element.incorrect_answers[0],
-      optionB: element.incorrect_answers[1],
-      optionC: element.incorrect_answers[2],
-      optionD: element.correct_answer,
-      correctOption: "optionD",
-      nIncorrectOptions: element.incorrect_answers.length
-    }
-    dataQuestions.push(temp)
-  });
-  console.log(dataQuestions[0].question)
-})
-.catch(function(error) {
-  console.log(error);
-});
+  fetch(url)
+    .then((resp) => resp.json())
+    .then(function (data) {
+      let q = data.results;
+      q.forEach(element => {
+        var shuf = element.incorrect_answers.push(element.correct_answer)
+        shuffleArray(element.incorrect_answers)
+        var cOption = ""
+        var c = element.incorrect_answers.indexOf(element.correct_answer)
+        switch (c) {
+          case 0:
+            cOption = "optionA"
+            break;
+          case 1:
+            cOption = "optionB"
+            break;
+          case 2:
+            cOption = "optionC"
+            break;
+          case 3:
+            cOption = "optionD"
+            break;
+        }
 
+        const temp = {
+          question: element.question,
+          optionA: element.incorrect_answers[0],
+          optionB: element.incorrect_answers[1],
+          optionC: element.incorrect_answers[2],
+          optionD: element.incorrect_answers[3],
+          correctOption: cOption,
+          nIncorrectOptions: element.incorrect_answers.length
+        }
+        dataQuestions.push(temp)
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
 }
 
 
