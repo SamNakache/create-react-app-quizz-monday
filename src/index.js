@@ -244,8 +244,6 @@ function getData() {
     .catch(function (error) {
       console.log(error);
     });
-  //l = dataQuestions.length;
-
 }
 
 function shuffleArray(array) {
@@ -336,12 +334,13 @@ function checkOption(option) {
 }
 
 function restartGame(){
-  //if (!pause)
-    pauseGame();
+  pauseGame();
   clearInterval(x);
+  const b = bestScore;
   endOfGame();
   document.getElementById('before-new').style.display = 'none';
   newGame();
+  document.getElementById("best-score").innerHTML = b;
 }
 
 
