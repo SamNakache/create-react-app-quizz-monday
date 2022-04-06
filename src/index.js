@@ -31,6 +31,30 @@ document.getElementById("option-four-label").addEventListener("click", function 
 document.getElementById("play-pause-image").addEventListener("click", function () { pauseGame() });
 document.getElementById("half").addEventListener("click", function () { half() });
 
+//Restart Game
+document.getElementById("restart").addEventListener("click", function () { 
+  pauseGame()
+  document.getElementById('before-new').style.display = 'flex';
+});
+document.getElementById("no").addEventListener("click", function () { 
+  pauseGame()
+  document.getElementById('before-new').style.display = 'none';
+});
+document.getElementById("yes").addEventListener("click", function () { 
+  pauseGame();
+  clearInterval(x);
+  endOfGame();
+  document.getElementById('before-new').style.display = 'none';
+  newGame();
+});
+
+
+
+
+//New Game
+document.getElementById("continue").addEventListener("click", function () {newGame()});
+
+
 
 
 // function for displaying next question in the array to dom
@@ -38,6 +62,7 @@ document.getElementById("half").addEventListener("click", function () { half() }
 function NextQuestion(index) {
   removeColor()
   if (index < numberOfQuestion) {
+    console.log(index)
     indexNumber = index;
     document.getElementById("number-question").innerHTML = (indexNumber + 1) + "/" + numberOfQuestion;
     currentQuestion = dataQuestions[indexNumber];
@@ -135,6 +160,12 @@ function stopInterval() {
   countDown();
 }
 
+function newGame(){
+  eraseEverything();
+  getData();
+  setTimeout(() => { countDown(); }, 2000);
+}
+
 
 
 
@@ -156,12 +187,6 @@ function endOfGame() {
 
 }
 
-//New Game
-document.getElementById("continue").addEventListener("click", function () {
-  eraseEverything();
-  getData();
-  setTimeout(() => { countDown(); }, 2000);
-});
 
 
 
