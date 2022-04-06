@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 
-getData()
+
 
 let playerScore = 0  //holds the player score
 document.getElementById("player-score").innerHTML = playerScore;
@@ -16,11 +16,14 @@ let bestScore = 0;
 document.getElementById("best-score").innerHTML = playerScore;
 var dataQuestions = [];
 var cell = document.getElementById("option-one-label")
-setTimeout(() => { countDown(); }, 2000);
 var x;
 var numberOfQuestion = 15;
 var pause = false;
 var usedHalf = false;
+
+getData()
+setTimeout(() => { countDown(); }, 2000);
+
 
 
 document.getElementById("option-one-label").addEventListener("click", function () { checkAnswer("optionA"); setTimeout(() => { stopInterval(); }, 1000); });
