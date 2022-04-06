@@ -33,7 +33,8 @@ document.getElementById("half").addEventListener("click", function () { half() }
 
 //Restart Game
 document.getElementById("restart").addEventListener("click", function () { 
-  pauseGame()
+  if (!pause)
+    pauseGame()
   document.getElementById('before-new').style.display = 'flex';
 });
 document.getElementById("no").addEventListener("click", function () { 
@@ -41,11 +42,7 @@ document.getElementById("no").addEventListener("click", function () {
   document.getElementById('before-new').style.display = 'none';
 });
 document.getElementById("yes").addEventListener("click", function () { 
-  pauseGame();
-  clearInterval(x);
-  endOfGame();
-  document.getElementById('before-new').style.display = 'none';
-  newGame();
+  restartGame();
 });
 
 
@@ -62,7 +59,6 @@ document.getElementById("continue").addEventListener("click", function () {newGa
 function NextQuestion(index) {
   removeColor()
   if (index < numberOfQuestion) {
-    console.log(index)
     indexNumber = index;
     document.getElementById("number-question").innerHTML = (indexNumber + 1) + "/" + numberOfQuestion;
     currentQuestion = dataQuestions[indexNumber];
@@ -337,6 +333,15 @@ function checkOption(option) {
   if (option === currentQuestion.correctOption)
     return false;
   return true;
+}
+
+function restartGame(){
+  //if (!pause)
+    pauseGame();
+  clearInterval(x);
+  endOfGame();
+  document.getElementById('before-new').style.display = 'none';
+  newGame();
 }
 
 

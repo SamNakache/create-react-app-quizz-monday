@@ -272,10 +272,17 @@ input[type=radio]:checked ~ .option {
   max-width: 50%;
     max-height: 50%;
 }
+ 
+.images:hover{
+  -ms-transform: scale(1.20);
+  -webkit-transform: scale(1.20);
+  transform: scale(1.20);
+}
 
 .half{
   color: blue;
 }
+
 
 
 @keyframes fadeIn {
