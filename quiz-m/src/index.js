@@ -18,7 +18,18 @@ var dataQuestions = [];
 var cell = document.getElementById("option-one-label")
 setTimeout(() => { countDown(); }, 2000);
 var x;
-var l = 5; 
+var numberOfQuestion = 15;
+var pause = false;
+var usedHalf = false;
+
+
+document.getElementById("option-one-label").addEventListener("click", function () { checkAnswer("optionA"); setTimeout(() => { stopInterval(); }, 1000); });
+document.getElementById("option-two-label").addEventListener("click", function () { checkAnswer("optionB"); setTimeout(() => { stopInterval(); }, 1000); });
+document.getElementById("option-three-label").addEventListener("click", function () { checkAnswer("optionC"); setTimeout(() => { stopInterval(); }, 1000); });
+document.getElementById("option-four-label").addEventListener("click", function () { checkAnswer("optionD"); setTimeout(() => { stopInterval(); }, 1000); });
+
+document.getElementById("play-pause-image").addEventListener("click", function () { pauseGame() });
+document.getElementById("half").addEventListener("click", function () { half() });
 
 
 
@@ -26,9 +37,9 @@ var l = 5;
 //also handles displaying players and quiz information to dom
 function NextQuestion(index) {
   removeColor()
-  console.log(index)
-  if (index < l) {
+  if (index < numberOfQuestion) {
     indexNumber = index;
+    document.getElementById("number-question").innerHTML = (indexNumber + 1) + "/" + numberOfQuestion;
     currentQuestion = dataQuestions[indexNumber];
     document.getElementById("display-question").innerHTML = currentQuestion.question;
     document.getElementById("option-one-label").innerHTML = currentQuestion.optionA;
@@ -56,44 +67,46 @@ function checkAnswer(option) {
     rightAnswers++;
   }
   else {
-    playerScore -= 5;
+    if (playerScore>=5){
+      playerScore -= 5;
     document.getElementById("player-score").innerHTML = playerScore
+    }
     wrongAnswers++;
   }
   colorRightAnswer()
-  
+
 }
 
 
-function colorRightAnswer(){
-  switch(currentQuestion.correctOption){
+function colorRightAnswer() {
+  switch (currentQuestion.correctOption) {
     case 'optionA':
       cell = document.getElementById("option-one-label")
       break;
     case 'optionB':
-      cell= document.getElementById("option-two-label")
+      cell = document.getElementById("option-two-label")
       break;
     case 'optionC':
-      cell= document.getElementById("option-three-label")
+      cell = document.getElementById("option-three-label")
       break;
     case 'optionD':
-      cell= document.getElementById("option-four-label")
+      cell = document.getElementById("option-four-label")
       break;
     default:
   }
   cell.style.backgroundColor = 'green'
 }
 
-function removeColor(){
+function removeColor() {
   cell.style.backgroundColor = 'lightgray'
 }
 
 function countDown() {
-  
-    NextQuestion(indexNumber);
-    var seconds = 14;
 
-  
+  NextQuestion(indexNumber);
+  var seconds = 14;
+
+
 
   // Update the count down every 1 second
   x = setInterval(function () {
@@ -107,25 +120,23 @@ function countDown() {
     if (seconds < 1) {
       stopInterval()
     }
-    if (!(indexNumber < l)) {
+    if (!(indexNumber < numberOfQuestion)) {
       clearInterval(x)
       document.getElementById("remaining-time").innerHTML = "END";
     }
-    seconds--;
+    if (!pause)
+      seconds--;
   }, 1000);
-  
+
 }
-function stopInterval(){
-      clearInterval(x);
-      indexNumber++;
-        countDown();
-    }
+function stopInterval() {
+  clearInterval(x);
+  indexNumber++;
+  countDown();
+}
 
 
-document.getElementById("option-one-label").addEventListener("click", function () { checkAnswer("optionA"); setTimeout(() => { stopInterval(); }, 1000); });
-document.getElementById("option-two-label").addEventListener("click", function () { checkAnswer("optionB"); setTimeout(() => { stopInterval(); }, 1000); });
-document.getElementById("option-three-label").addEventListener("click", function () { checkAnswer("optionC"); setTimeout(() => { stopInterval(); }, 1000); });
-document.getElementById("option-four-label").addEventListener("click", function () { checkAnswer("optionD"); setTimeout(() => { stopInterval(); }, 1000); });
+
 
 function addColor(result) {
   if (result >= 3)
@@ -146,7 +157,7 @@ function endOfGame() {
 }
 
 //New Game
-document.getElementById("continue").addEventListener("click", function () { 
+document.getElementById("continue").addEventListener("click", function () {
   eraseEverything();
   getData();
   setTimeout(() => { countDown(); }, 2000);
@@ -212,7 +223,7 @@ function getData() {
     .catch(function (error) {
       console.log(error);
     });
-    //l = dataQuestions.length;
+  //l = dataQuestions.length;
 
 }
 
@@ -223,6 +234,84 @@ function shuffleArray(array) {
     array[i] = array[j];
     array[j] = temp;
   }
+}
+
+function pauseGame() {
+  if (!pause) {
+    pause = true;
+    document.getElementById("display-question").innerHTML = "";
+    document.getElementById("option-one-label").innerHTML = "";
+    document.getElementById("option-two-label").innerHTML = "";
+    document.getElementById("option-three-label").innerHTML = "";
+    document.getElementById("option-four-label").innerHTML = "";
+    document.getElementById("play-pause-image").src = "play.png";
+  }
+  else {
+    pause = false;
+    NextQuestion(indexNumber)
+    document.getElementById("play-pause-image").src = "pause.png";
+  }
+
+}
+
+function half() {
+  if (!usedHalf && !(currentQuestion.nOptions === 2)) 
+  {
+    document.getElementById("half").style.opacity = 0.5;
+    usedHalf = true;
+    removeTwoRandomOptions()
+  }
+}
+
+function removeTwoRandomOptions() {
+  var removable = [];
+  let marked = -1
+  while (removable.length < 2) {
+    let option = getRandomInt(4);
+    if (option !== marked) {
+      switch (option) {
+        case 0:
+          if (checkOption("optionA")) {
+            removable.push("option-one-label");
+            marked = 0;
+          }
+          break;
+        case 1:
+          if (checkOption("optionB")) {
+            removable.push("option-two-label");
+            marked = 1;
+          }
+          break;
+        case 2:
+          if (checkOption("optionC")) {
+            removable.push("option-three-label");
+            marked = 2;
+          }
+          break;
+        case 3:
+          if (checkOption("optionD")) {
+            removable.push("option-four-label");
+            marked = 3;
+          }
+          break;
+        default:
+      }
+    }
+
+  }
+  removable.forEach(element => {
+    document.getElementById(element).innerHTML = "";
+  });
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function checkOption(option) {
+  if (option === currentQuestion.correctOption)
+    return false;
+  return true;
 }
 
 
