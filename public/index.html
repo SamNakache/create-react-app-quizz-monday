@@ -1,40 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Monday Quizz</title>
+</head>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<body>
+  <main>
+    <!-- creating a modal for when quiz ends -->
+    <div class="modal-container" id="score-modal">
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+      <div class="modal-content-container">
+
+        <h1>Congratulations, Quiz Completed.</h1>
+
+        <div class="grade-details">
+          <p>Wrong Answers : <span id="wrong-answers"></span></p>
+          <p>Right Answers : <span id="right-answers"></span></p>
+          <p>Score : <span id="score"></span></p>
+        </div>
+
+        <div class="modal-button-container">
+          <button id = "continue">Continue</button>
+        </div>
+
+      </div>
+    </div>
+    <!-- end of modal of quiz details-->
+
+    <div class="game-quiz-container">
+
+      <div class="game-details-container">
+        <h1>Score : <span id="player-score"></span></h1>
+        <h1> Best Score : <span id="best-score"></span></h1>
+        <h2><span id="remaining-time"></span></h2>
+        
+      </div>
+
+      <div class="game-question-container">
+        <h1 id="display-question"></h1>
+      </div>
+
+      <div class="game-options-container">
+
+        <div class="modal-container" id="option-modal">
+        </div>
+
+        <span>
+          <input type="radio" id="option-one" name="option" class="radio" value="optionA" />
+          <label for="option-one" class="option" id="option-one-label"></label>
+        </span>
+
+
+        <span>
+          <input type="radio" id="option-two" name="option" class="radio" value="optionB" />
+          <label for="option-two" class="option" id="option-two-label"></label>
+        </span>
+
+
+        <span>
+          <input type="radio" id="option-three" name="option" class="radio" value="optionC" />
+          <label for="option-three" class="option" id="option-three-label"></label>
+        </span>
+
+
+        <span>
+          <input type="radio" id="option-four" name="option" class="radio" value="optionD" />
+          <label for="option-four" class="option" id="option-four-label"></label>
+        </span>
+
+
+      </div>
+      <div class="game-details-container">
+        <h1><span id="half" class="half">50/50</span></h1>
+        <h1><span id="number-question"></span></h1>
+        <img src="pause.png" alt="" class="play-pause-image" id="play-pause-image">
+        
+        
+      </div>
+    </div>
+  </main>
+  <script src="index.js">
+  </script>
+</body>
+
 </html>
