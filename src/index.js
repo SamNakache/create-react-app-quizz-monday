@@ -123,17 +123,6 @@ function colorRightAnswer() {
 }
 
 function removeColor() {
-  /*cell.addEventListener('mouseover', function handleMouseOver() {
-    cell.style.backgroundColor = "rgb(58, 208, 231)";
-  });
-
-  cell.addEventListener('mouseout', function handleMouseOut() {
-    cell.style.backgroundColor = "white";
-  });*/
-
-  /*cell.style.backgroundColor = "white";
-  cell.style.onmouseover = mouseOverFunction;*/
-
   document.querySelectorAll('.option').forEach(item => {
     item.style.color = "black" 
     item.style.backgroundColor = "white" 
@@ -146,17 +135,6 @@ function removeColor() {
       item.style.color = "black" 
   })
   })
-
-
-  /*cell.addEventListener("mouseover", function() {
-    cell.style.backgroundColor = "rgb(58, 208, 231)";
-});
-    
-cell.addEventListener("mouseout", function() {
-    cell.style.backgroundColor = "white";
-});*/
-
-  //cell.style.all = "initial";
 }
 
 
