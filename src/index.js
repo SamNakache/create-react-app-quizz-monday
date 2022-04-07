@@ -122,10 +122,6 @@ function colorRightAnswer() {
   cell.style.backgroundColor = 'green'
 }
 
-var mouseOverFunction = function () {
-  cell.style.backgroundColor = "rgb(58, 208, 231)";
-};
-
 function removeColor() {
   /*cell.addEventListener('mouseover', function handleMouseOver() {
     cell.style.backgroundColor = "rgb(58, 208, 231)";
