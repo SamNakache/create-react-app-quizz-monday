@@ -61,20 +61,21 @@ document.getElementById("continue").addEventListener("click", function () {newGa
 //also handles displaying players and quiz information to dom
 function NextQuestion(index) {
   removeColor()
+  //cell.style.backgroundColor = "white";
   if (index < numberOfQuestion) {
     indexNumber = index;
     document.getElementById("number-question").innerHTML = (indexNumber + 1) + "/" + numberOfQuestion;
     currentQuestion = dataQuestions[indexNumber];
     document.getElementById("display-question").innerHTML = currentQuestion.question;
-    document.getElementById("option-one-label").innerHTML = currentQuestion.optionA;
-    document.getElementById("option-two-label").innerHTML = currentQuestion.optionB;
+    document.getElementById("option-one-label").innerHTML = "A. "+currentQuestion.optionA;
+    document.getElementById("option-two-label").innerHTML = "B. "+currentQuestion.optionB;
     if (currentQuestion.nOptions === 2) {
       document.getElementById("option-three-label").style.display = 'none';
       document.getElementById("option-four-label").style.display = 'none';
     }
     else {
-      document.getElementById("option-three-label").innerHTML = currentQuestion.optionC;
-      document.getElementById("option-four-label").innerHTML = currentQuestion.optionD;
+      document.getElementById("option-three-label").innerHTML = "C. "+currentQuestion.optionC;
+      document.getElementById("option-four-label").innerHTML = "D. "+currentQuestion.optionD;
       document.getElementById("option-three-label").style.display = 'flex';
       document.getElementById("option-four-label").style.display = 'flex';
     }
@@ -121,9 +122,47 @@ function colorRightAnswer() {
   cell.style.backgroundColor = 'green'
 }
 
+var mouseOverFunction = function () {
+  cell.style.backgroundColor = "rgb(58, 208, 231)";
+};
+
 function removeColor() {
-  cell.style.backgroundColor = 'lightgray'
+  /*cell.addEventListener('mouseover', function handleMouseOver() {
+    cell.style.backgroundColor = "rgb(58, 208, 231)";
+  });
+
+  cell.addEventListener('mouseout', function handleMouseOut() {
+    cell.style.backgroundColor = "white";
+  });*/
+
+  /*cell.style.backgroundColor = "white";
+  cell.style.onmouseover = mouseOverFunction;*/
+
+  document.querySelectorAll('.option').forEach(item => {
+    item.style.color = "black" 
+    item.style.backgroundColor = "white" 
+    item.addEventListener("mouseover", event => {
+      item.style.backgroundColor = "rgb(58, 208, 231)";
+      item.style.color = "white" 
+    })
+    item.addEventListener("mouseout", event => {
+      item.style.backgroundColor = "white";
+      item.style.color = "black" 
+  })
+  })
+
+
+  /*cell.addEventListener("mouseover", function() {
+    cell.style.backgroundColor = "rgb(58, 208, 231)";
+});
+    
+cell.addEventListener("mouseout", function() {
+    cell.style.backgroundColor = "white";
+});*/
+
+  //cell.style.all = "initial";
 }
+
 
 function countDown() {
 

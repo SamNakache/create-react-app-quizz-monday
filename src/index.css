@@ -21,8 +21,7 @@ main{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  background-color : black;
+  background-color: white;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -31,7 +30,7 @@ main{
 .game-quiz-container{
   width: 40rem;
   height: 30rem;
-  background-color: lightgray;
+  background-color:rgb(77,188,196);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,8 +56,10 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid darkgray;
+  border: 2px solid white;
   border-radius: 25px;
+  padding: 10px;
+  background-color: white;
 }
 
 .game-question-container h1{
@@ -74,12 +75,15 @@ main{
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
+  padding: -10px;
+  
+
 }
 
 .game-options-container span{
   width: 45%;
   height: 3rem;
-  border: 2px solid darkgray;
+  border: 2px solid white;
   border-radius: 20px;
   overflow: hidden;
 }
@@ -108,10 +112,6 @@ input[type="radio"] {
 }
 
 
-input[type=radio]:checked ~ .option {
-  background: paleturquoise;
-}
-
 .next-button-container{
   width: 50%;
   height: 3rem;
@@ -125,7 +125,7 @@ input[type=radio]:checked ~ .option {
   background: none;
   color: rgb(25, 25, 25);
   font-weight: 600;
-  border: 2px solid gray;
+  
   cursor: pointer;
   outline: none;
 }
@@ -281,6 +281,20 @@ input[type=radio]:checked ~ .option {
 
 .half{
   color: blue;
+}
+
+.option{
+  background-color: white;
+}
+
+.option:hover{
+  background-color: rgb(58, 208, 231);
+  border: 0px;
+}
+
+::selection {
+  color: none;
+  background: none;
 }
 
 
